@@ -50,65 +50,26 @@ public class LiveJournalPageRank extends
   private static final Logger LOG =
       Logger.getLogger(LiveJournalPageRank.class);
 
-  /**
-   * Is this vertex the source id?
-   *
-   * @return True if the source id
-   */
-  private boolean isSource() {
-    return getId().get() == SOURCE_ID.get(getConf());
-  }
-
-  /*
+ 
   @Override
   public void compute(Iterable<DoubleWritable> messages) {
-    if (getSuperstep() == 0) {
-      setValue(new DoubleWritable(Double.MAX_VALUE));
-    }
-    double minDist = isSource() ? 0d : Double.MAX_VALUE;
-    for (DoubleWritable message : messages) {
-      minDist = Math.min(minDist, message.get());
-    }
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Vertex " + getId() + " got minDist = " + minDist +
-          " vertex value = " + getValue());
-    }
-    if (minDist < getValue().get()) {
-      setValue(new DoubleWritable(minDist));
-      for (Edge<IntWritable, NullWritable> edge : getEdges()) {
-        double distance = minDist + 1;//edge.getValue().get();
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Vertex " + getId() + " sent to " +
-              edge.getTargetVertexId() + " = " + distance);
-        }
-        sendMessage(edge.getTargetVertexId(), new DoubleWritable(distance));
-      }
-    }
-    voteToHalt();
-  }
-  */
-
-  @Override
-  public void compute(Iterable<DoubleWritable> messages) {
-     // Find the total number of vertices so that we can set the initial PageRank value
-     if (getSuperstep() == 0) {
-       setValue(new DoubleWritable(Double.MAX_VALUE));
-     }
-
-     if (getSuperstep() ==  1) {
-       setValue(new DoubleWritable(1 / getTotalNumVertices()));
+    
+    // Set the initial PageRank to be 1 / N, where N is the total number of vertices
+    // NOTE: This is the 2nd superstep to allow one step to count the total number of vertices
+    if (getSuperstep() ==  1) {
+       setValue(new DoubleWritable(1.0d / getTotalNumVertices()));
      }
 
      // Calculate PageRank from incoming messages
      if (getSuperstep() > 1) {
        
-       double pageRank = 0d; 
+       double pageRankSum = 0d; 
        for (DoubleWritable message: messages) {
-          pageRank += message.get();
+          pageRankSum += message.get();
        }
 
-       // Calculate our pagerank and set it as the vertex value
-       DoubleWritable vertexRank = new DoubleWritable((0.15f / getTotalNumVertices()) + 0.85f * pageRank);
+       float d = 0.85f; // Damping factor
+       DoubleWritable vertexRank = new DoubleWritable(((1.0f - d) / getTotalNumVertices()) + d * pageRankSum);
        setValue(vertexRank);
      }
 

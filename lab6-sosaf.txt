@@ -1,0 +1,58 @@
+Fidel Sosa - Lab 7 Writeup
+
+1. Vertex IDs of the top 10 PageRanks
+
+   2914    7.547779076981391E-6
+   8737    7.419932017858626E-6
+   27909   7.321416139765122E-6
+   2678    7.003049504878565E-6
+   1860    6.859365630851753E-6
+   67784   6.572578405484424E-6
+   15050   6.455547528651224E-6
+   1220    4.9925503159314835E-6
+   214538  4.322758036762656E-6
+   4494    4.026747292423063E-6
+
+2. The PageRank implementation in this lab, compared to the thought experiements from the previous labs, was
+orders of magnitudes simpler by virtue of the fact that Giraph takes a graph-based approach to data processing.
+Because PageRank is a graph algorithm, writing the PageRank implementation was simple due to the fact that we
+were able to treat data as vertices and edges. The extra level of graph processing abstraction made writing
+the Giraph code very simple. That is, it's simple by virtue of handling the map/reduce tasks for us, instead 
+of us having to figure out a way to represent the graph algorithm in terms of the MR tasks. 
+
+3. If I had graph data that I needed to process, I would definitely use Giraph over Spark and pure MapReduce, 
+by virtue of the fact that the API makes writing that code incredibly simple. However, it's crucial to note
+that we shouldn't use Giraph for every task i.e. some tasks are suited to a more pure MapReduce approach versus
+trying to wrangle our algorithm into a graph algorithm. 
+
+4. The pros of the vertex-centric computation model are that it makes writing and expressing graph algorithms
+incredibly simple. Instead of thinking in map/reduce terms, we can think in terms of graph computation steps,
+which is more fitting to the task. However, you do lose the flexibility of everything that you can do in pure
+MapReduce because it is tailored to the specific graph processing problem. For graph processing, it makes 
+perfect sense to use Giraph because of its simplicity. 
+2. The PageRank implementation in this lab, compared to the thought experiements from the previous labs, was
+orders of magnitudes simpler by virtue of the fact that Giraph takes a graph-based approach to data processing.
+Because PageRank is a graph algorithm, writing the PageRank implementation was simple due to the fact that we
+were able to treat data as vertices and edges. The extra level of graph processing abstraction made writing
+the Giraph code very simple. That is, it's simple by virtue of handling the map/reduce tasks for us, instead 
+of us having to figure out a way to represent the graph algorithm in terms of the MR tasks. 
+
+3. If I had graph data that I needed to process, I would definitely use Giraph over Spark and pure MapReduce, 
+by virtue of the fact that the API makes writing that code incredibly simple. However, it's crucial to note
+that we shouldn't use Giraph for every task i.e. some tasks are suited to a more pure MapReduce approach versus
+trying to wrangle our algorithm into a graph algorithm. 
+
+4. The pros of the vertex-centric computation model are that it makes writing and expressing graph algorithms
+incredibly simple. Instead of thinking in map/reduce terms, we can think in terms of graph computation steps,
+which is more fitting to the task. However, you do lose the flexibility of everything that you can do in pure
+MapReduce because it is tailored to the specific graph processing problem. For graph processing, it makes 
+perfect sense to use Giraph because of its simplicity. 
+
+
+
+
+
+
+
+
+
